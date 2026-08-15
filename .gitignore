@@ -8,6 +8,14 @@ docs/stylesheets/
 docs/javascript/
 docs/images/favicon.svg
 
+# Theme overrides staged from design-system/overrides/. Staging is
+# no-clobber, so a committed copy would freeze this repo on an old version
+# of a shared partial. To genuinely override one, remove its line here and
+# commit the file deliberately.
+overrides/main.html
+overrides/partials/
+overrides/.icons/
+
 # Python
 __pycache__/
 *.py[cod]
