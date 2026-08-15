@@ -95,6 +95,32 @@ Known repos in this category: `Snoopy-Landing-Page`, `Chrome-File-Directory`,
 `git-rewrite-commits`, `CSUS-Code`, `Homework-Dump`, and the `CPSC-*-Code`
 repos using `jekyll-gh-pages.yml`. Verify rather than trusting this list.
 
+### Health files are org-level — link, don't include
+
+`CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, and `SECURITY.md` are being
+consolidated into [willtheorangeguy/.github](https://github.com/willtheorangeguy/.github)
+and **deleted from individual repos**. As of August 2026 an open
+`docs/standardize` pull request does exactly that in each repo.
+
+So the template links to the org copies from the nav instead of including
+them. Do not add snippet pages for these three, even when the local files are
+still present — the site would build today and break the moment that pull
+request merges.
+
+Check whether the repo is in that wave before deciding:
+
+```bash
+gh pr list --search "head:docs/standardize" --json number,title
+```
+
+The two that stay per-repo and *are* included as pages:
+
+- `CHANGELOG.md` — genuinely repo-specific
+- `LICENSE.md` — normalised by that wave, not deleted
+
+A repo that deliberately keeps its own local health files can still use the
+snippet pages; the templates remain in `template/docs/`.
+
 ### Which root files exist?
 
 ```bash
@@ -105,6 +131,33 @@ ls CHANGELOG.md CONTRIBUTING.md CODE_OF_CONDUCT.md SECURITY.md LICENSE.md 2>/dev
 exist.** `check_paths: true` turns a missing include into a build failure, not
 an empty page. Note that some repos use `LICENSE` with no extension — either
 correct the path in `license.md` or drop the page.
+
+### Fix cross-references inside the included root files
+
+`CONTRIBUTING.md` and `SECURITY.md` typically link to each other and to
+`README.md` with **relative** paths. Those work on GitHub but not once the file
+is included into a docs page, because the target is not a page in the site:
+
+```text
+WARNING - Doc file 'security.md' contains a link 'CONTRIBUTING.md', but the
+          target is not found among documentation files.
+```
+
+Rewrite them as absolute GitHub URLs, which are correct in both contexts:
+
+```markdown
+[`CONTRIBUTING`](https://github.com/OWNER/REPO/blob/HEAD/CONTRIBUTING.md)
+```
+
+Use `/blob/HEAD/`, not `/blob/main/`. Roughly half these repos default to
+`master`, and a hardcoded `main` produces a 404 — several already have this bug.
+
+Check for the same problem in reverse: an in-page anchor such as `[below](#style)`
+pointing at a heading that does not exist is broken on GitHub too, and the
+strict build is often the first thing to notice.
+
+This is editing root files, which is allowed — the standing rule is only that
+you do not restructure `README.md`.
 
 ### Deleting a page means deleting three things
 

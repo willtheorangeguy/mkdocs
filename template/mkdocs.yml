@@ -57,15 +57,20 @@ nav:
       - CI/CD: ci-cd.md
       - FAQ: faq.md
 
-  # Snippet pages. DELETE the entry AND the file for every root document
-  # that does not exist in this repo — `check_paths: true` turns a missing
-  # include into a build failure, not an empty page.
+  # CHANGELOG.md and LICENSE.md are per-repo, so they are included as pages.
+  # DELETE the entry AND the file for either one this repo does not have —
+  # `check_paths: true` turns a missing include into a build failure.
+  #
+  # Contributing, Code of Conduct, and Security are org-level files living in
+  # willtheorangeguy/.github, so they are linked rather than included. A repo
+  # that keeps its own local copy can swap the URL for a snippet page — the
+  # templates are still in template/docs/. See ROLLOUT.md, "Health files".
   - About:
-      - Contributing: contributing.md
       - Changelog: changelog.md
-      - Code of Conduct: code-of-conduct.md
-      - Security: security.md
       - License: license.md
+      - Contributing: https://github.com/willtheorangeguy/.github/blob/main/CONTRIBUTING.md
+      - Code of Conduct: https://github.com/willtheorangeguy/.github/blob/main/CODE_OF_CONDUCT.md
+      - Security: https://github.com/willtheorangeguy/.github/blob/main/SECURITY.md
 
 # The writing standard is shipped with the docs but is not a site page.
 exclude_docs: |
