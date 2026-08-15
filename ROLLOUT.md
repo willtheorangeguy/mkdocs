@@ -179,8 +179,11 @@ WARNING - Doc file 'index.md' contains a link 'api.md', but the target is
 
 - `testing.md` — only if there is a test suite
 - `ci-cd.md` — only if there are workflows beyond the two you are adding
-- `faq.md` — only if there are real recurring questions in issues or
-  discussions. Do not invent one.
+- `faq.md` — **always**. Do not wait for real questions to accumulate; the
+  repos with no recorded questions are the ones where a reader has nowhere
+  else to turn. Predict the questions from what the source, tests, and
+  workflows told you, and answer every one from verified behaviour. See
+  "Writing an FAQ" in `docs.instructions.md`.
 
 ### Does `docs/` already exist?
 

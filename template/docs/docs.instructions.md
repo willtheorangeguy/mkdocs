@@ -203,6 +203,55 @@ A TODO is honest. Invented prose is a bug that ships.
 
 ---
 
+## Writing an FAQ
+
+Every repo gets an `faq.md`, whether or not anyone has asked a question yet.
+Waiting for real questions means the page never gets written for the quiet
+repos, which are exactly the ones where a reader has nowhere else to turn.
+
+**Anticipate the question, never invent the answer.** These are different acts,
+and only the second one is forbidden:
+
+- Predicting *what* someone will ask is judgement, and you have the evidence to
+  do it well — you have just read the source, the tests, and the workflows.
+- Inventing *what the software does* is a defect, exactly as it is on every
+  other page. Every answer must trace to something you verified.
+
+If you cannot answer a question from verified behaviour, the question does not
+belong on the page.
+
+### Where good questions come from
+
+Work from what the code told you, in roughly this order of value:
+
+1. **Surprises you hit while reading the source.** If a behaviour surprised
+   you, it will surprise the reader. A CLI that keeps nothing after it exits, a
+   container that bakes files in at build time, a command that must be run
+   before another — each is a question waiting to happen.
+2. **Gaps between what the README promises and what the code does.** Readers
+   arrive believing the README.
+3. **The first five minutes.** Install fails, the command is not on `PATH`, the
+   program exits immediately, nothing appears on screen.
+4. **Decisions the reader must make.** Which install method, which image tag,
+   which of two spellings.
+5. **Anything a placeholder, prompt, or error message hints at.** If the code
+   prints "make sure this colour is in the database", someone has hit that.
+
+### What does not belong
+
+- Questions whose answer is "read the installation page". An FAQ is for things
+  that are genuinely confusing, not a second table of contents.
+- Padding to reach a count. Four sharp entries beat twelve filler ones.
+- Anything you would have to guess at. Leave a `<!-- TODO -->` instead.
+
+### Shape
+
+Phrase each entry as the reader would actually type it into a search box —
+"Why did my data disappear?", not "Data persistence". Use `???+ question` for
+the first entry so the page opens with something visible, `???` for the rest.
+Put failures with a visible symptom under Troubleshooting instead, keyed on the
+error text.
+
 ## Documenting APIs
 
 Pick the form that matches the project's actual interface.
@@ -308,7 +357,9 @@ endpoint reference that documents only the happy path is half-written.
 - **Don't invent.** No features, flags, install methods, or return values that
   you have not seen in the source, tests, README, or workflows. This is the
   single most damaging failure mode: invented documentation is indistinguishable
-  from real documentation until someone tries it.
+  from real documentation until someone tries it. Anticipating a *question*
+  nobody has asked yet is fine and expected — see [Writing an FAQ](#writing-an-faq);
+  inventing the *answer* is not.
 - **Don't duplicate root files.** `CHANGELOG.md`, `CONTRIBUTING.md`,
   `SECURITY.md`, `CODE_OF_CONDUCT.md`, and `LICENSE.md` are pulled in by
   reference. Copying them creates two versions that drift.
