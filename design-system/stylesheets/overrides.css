@@ -1,0 +1,177 @@
+/* =========================================================================
+   Material overrides
+   =========================================================================
+
+   Adjustments to the stock theme so it sits on the tokens from theme.css.
+   Keep this file small: every rule here is a divergence from upstream that
+   has to survive Material upgrades across 130 sites.
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   Typography
+   ------------------------------------------------------------------------- */
+
+.md-typeset h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--wt-text);
+}
+
+.md-typeset h2 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: var(--wt-space-7);
+  padding-bottom: var(--wt-space-2);
+  border-bottom: 1px solid var(--wt-border);
+}
+
+.md-typeset h3 {
+  font-weight: 600;
+  margin-top: var(--wt-space-6);
+}
+
+/* Permalinks stay quiet until the heading is hovered. */
+.md-typeset .headerlink {
+  opacity: 0;
+  transition: opacity 125ms;
+}
+
+.md-typeset :is(h1, h2, h3, h4):hover .headerlink,
+.md-typeset .headerlink:focus-visible {
+  opacity: 1;
+}
+
+/* -------------------------------------------------------------------------
+   Code
+   ------------------------------------------------------------------------- */
+
+.md-typeset code,
+.md-typeset pre > code {
+  border-radius: var(--wt-radius-sm);
+}
+
+.md-typeset pre > code {
+  border: 1px solid var(--wt-border);
+}
+
+/* Inline code inside headings should not shout. */
+.md-typeset :is(h1, h2, h3) code {
+  font-size: 0.9em;
+  background: var(--wt-surface-sunken);
+}
+
+/* The copy button is always on; make sure it never covers the first token. */
+.md-typeset .md-clipboard {
+  color: var(--wt-text-subtle);
+}
+
+.md-typeset :hover > .md-clipboard {
+  color: var(--wt-primary);
+}
+
+/* -------------------------------------------------------------------------
+   Tables
+   ------------------------------------------------------------------------- */
+
+.md-typeset table:not([class]) {
+  border: 1px solid var(--wt-border);
+  border-radius: var(--wt-radius-md);
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.md-typeset table:not([class]) th {
+  background: var(--wt-surface-raised);
+  font-weight: var(--wt-font-weight-bold);
+}
+
+.md-typeset table:not([class]) tr:hover {
+  background: var(--wt-primary-faint);
+}
+
+/* -------------------------------------------------------------------------
+   Admonitions
+   Slightly flatter than stock so a page with several does not look striped.
+   ------------------------------------------------------------------------- */
+
+.md-typeset :is(.admonition, details) {
+  border-radius: var(--wt-radius-md);
+  border-width: 1px;
+  border-left-width: 3px;
+  box-shadow: none;
+  font-size: 0.75rem;
+}
+
+/* -------------------------------------------------------------------------
+   Tabbed blocks
+   installation.md uses these for per-platform instructions.
+   ------------------------------------------------------------------------- */
+
+.md-typeset .tabbed-labels > label {
+  font-weight: var(--wt-font-weight-medium);
+}
+
+.md-typeset .tabbed-set > input:checked + label {
+  color: var(--wt-primary);
+}
+
+/* -------------------------------------------------------------------------
+   Mermaid
+   Diagrams must read in both themes. Material injects its own theme
+   variables; these only correct the container.
+   ------------------------------------------------------------------------- */
+
+.md-typeset .mermaid {
+  margin: var(--wt-space-5) 0;
+  text-align: center;
+  overflow-x: auto;
+}
+
+/* -------------------------------------------------------------------------
+   mkdocstrings
+   Generated API pages get the same visual weight as hand-written ones.
+   ------------------------------------------------------------------------- */
+
+.md-typeset .doc-heading {
+  scroll-margin-top: 4rem;
+}
+
+.md-typeset .doc-object {
+  margin-bottom: var(--wt-space-6);
+}
+
+.md-typeset .doc-symbol {
+  border-radius: var(--wt-radius-sm);
+}
+
+.md-typeset .doc-contents {
+  padding-left: var(--wt-space-4);
+  border-left: 1px solid var(--wt-border);
+}
+
+/* -------------------------------------------------------------------------
+   Footer
+   ------------------------------------------------------------------------- */
+
+.md-footer-meta {
+  background: var(--wt-neutral-950);
+}
+
+.wt-footer-note {
+  padding: var(--wt-space-2) 0;
+  font-size: var(--wt-font-size-xs);
+  color: var(--wt-neutral-400);
+}
+
+.wt-footer-note a {
+  color: var(--wt-orange-300);
+}
+
+/* -------------------------------------------------------------------------
+   Print
+   ------------------------------------------------------------------------- */
+
+@media print {
+  .md-typeset a.wt-card { break-inside: avoid; }
+  .md-typeset .wt-hero  { background: none; border: 1px solid #000; }
+}

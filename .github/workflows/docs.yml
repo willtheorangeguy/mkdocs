@@ -1,0 +1,32 @@
+# This repository's own documentation site.
+#
+# The template dogfoods itself: it calls the same reusable workflow every
+# project repo calls. A green run here proves the workflow, the INHERIT
+# path, the macros module, and the design system all work before any
+# project repo is touched.
+#
+# `shared_ref` is pinned to the current branch rather than main, so a change
+# to the shared config is built against itself instead of against the
+# already-published version.
+
+name: Docs
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  docs:
+    uses: ./.github/workflows/docs-build.yml
+    with:
+      shared_ref: ${{ github.ref_name }}

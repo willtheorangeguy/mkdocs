@@ -1,0 +1,161 @@
+/* =========================================================================
+   Design tokens
+   =========================================================================
+
+   The single source of colour, spacing, radius, and type scale for every
+   documentation site.
+
+   RULE: no component file may hardcode a colour. Every colour is a token
+   defined here for light and re-declared for dark under
+   [data-md-color-scheme="slate"]. That rule is what keeps the dark-mode
+   toggle from producing unreadable pages across 130 sites at once.
+
+   Material's own variables (--md-*) are mapped from these tokens at the
+   bottom of each block, so the stock theme picks up the brand without any
+   component needing to know about it.
+   ========================================================================= */
+
+:root {
+  /* ---- Brand ramp ---------------------------------------------------- */
+  --wt-orange-50:  #fff4ed;
+  --wt-orange-100: #ffe6d5;
+  --wt-orange-200: #ffc9aa;
+  --wt-orange-300: #ffa374;
+  --wt-orange-400: #ff7139;
+  --wt-orange-500: #fb5607;
+  --wt-orange-600: #ec4106;
+  --wt-orange-700: #c33207;
+  --wt-orange-800: #9b2c0e;
+  --wt-orange-900: #7c280f;
+
+  /* ---- Neutral ramp -------------------------------------------------- */
+  --wt-neutral-0:   #ffffff;
+  --wt-neutral-50:  #fafafa;
+  --wt-neutral-100: #f4f4f5;
+  --wt-neutral-200: #e4e4e7;
+  --wt-neutral-300: #d4d4d8;
+  --wt-neutral-400: #a1a1aa;
+  --wt-neutral-500: #71717a;
+  --wt-neutral-600: #52525b;
+  --wt-neutral-700: #3f3f46;
+  --wt-neutral-800: #27272a;
+  --wt-neutral-900: #18181b;
+  --wt-neutral-950: #101012;
+
+  /* ---- Status ------------------------------------------------------- */
+  --wt-info:    #2563eb;
+  --wt-success: #16a34a;
+  --wt-warning: #d97706;
+  --wt-danger:  #dc2626;
+
+  /* ---- Semantic (light) ---------------------------------------------- */
+  --wt-primary:        var(--wt-orange-700);
+  --wt-primary-strong: var(--wt-orange-800);
+  --wt-primary-soft:   var(--wt-orange-100);
+  --wt-primary-faint:  var(--wt-orange-50);
+  --wt-on-primary:     var(--wt-neutral-0);
+
+  --wt-surface:        var(--wt-neutral-0);
+  --wt-surface-raised: var(--wt-neutral-50);
+  --wt-surface-sunken: var(--wt-neutral-100);
+  --wt-border:         var(--wt-neutral-200);
+  --wt-border-strong:  var(--wt-neutral-300);
+
+  --wt-text:           var(--wt-neutral-900);
+  --wt-text-muted:     var(--wt-neutral-600);
+  --wt-text-subtle:    var(--wt-neutral-500);
+
+  --wt-shadow-sm: 0 1px 2px rgb(0 0 0 / 6%);
+  --wt-shadow-md: 0 2px 8px rgb(0 0 0 / 8%);
+  --wt-shadow-lg: 0 8px 24px rgb(0 0 0 / 10%);
+
+  /* ---- Spacing scale -------------------------------------------------- */
+  --wt-space-1: 0.25rem;
+  --wt-space-2: 0.5rem;
+  --wt-space-3: 0.75rem;
+  --wt-space-4: 1rem;
+  --wt-space-5: 1.5rem;
+  --wt-space-6: 2rem;
+  --wt-space-7: 3rem;
+
+  /* ---- Radii ---------------------------------------------------------- */
+  --wt-radius-sm: 0.25rem;
+  --wt-radius-md: 0.5rem;
+  --wt-radius-lg: 0.75rem;
+  --wt-radius-full: 999px;
+
+  /* ---- Type ----------------------------------------------------------- */
+  --wt-font-size-xs: 0.7rem;
+  --wt-font-size-sm: 0.8rem;
+  --wt-font-weight-medium: 500;
+  --wt-font-weight-bold: 700;
+}
+
+/* ---- Semantic (dark) --------------------------------------------------
+   Only the tokens change. Nothing downstream is redeclared. */
+
+[data-md-color-scheme="slate"] {
+  --wt-primary:        var(--wt-orange-400);
+  --wt-primary-strong: var(--wt-orange-300);
+  --wt-primary-soft:   rgb(251 86 7 / 16%);
+  --wt-primary-faint:  rgb(251 86 7 / 8%);
+  --wt-on-primary:     var(--wt-neutral-950);
+
+  --wt-surface:        var(--wt-neutral-950);
+  --wt-surface-raised: var(--wt-neutral-900);
+  --wt-surface-sunken: var(--wt-neutral-800);
+  --wt-border:         var(--wt-neutral-800);
+  --wt-border-strong:  var(--wt-neutral-700);
+
+  --wt-text:           var(--wt-neutral-100);
+  --wt-text-muted:     var(--wt-neutral-400);
+  --wt-text-subtle:    var(--wt-neutral-500);
+
+  --wt-info:    #60a5fa;
+  --wt-success: #4ade80;
+  --wt-warning: #fbbf24;
+  --wt-danger:  #f87171;
+
+  --wt-shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
+  --wt-shadow-md: 0 2px 8px rgb(0 0 0 / 45%);
+  --wt-shadow-lg: 0 8px 24px rgb(0 0 0 / 50%);
+}
+
+/* =========================================================================
+   Map tokens onto Material
+   ========================================================================= */
+
+:root,
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color:        var(--wt-orange-700);
+  --md-primary-fg-color--light: var(--wt-orange-500);
+  --md-primary-fg-color--dark:  var(--wt-orange-900);
+  --md-primary-bg-color:        var(--wt-neutral-0);
+
+  --md-accent-fg-color:         var(--wt-orange-600);
+  --md-accent-fg-color--transparent: var(--wt-orange-50);
+
+  --md-typeset-a-color:         var(--wt-orange-700);
+}
+
+[data-md-color-scheme="slate"] {
+  /* The header keeps the deep brand tone; body text uses the lighter ramp
+     so link contrast stays above 4.5:1 on the dark surface. */
+  --md-primary-fg-color:        var(--wt-orange-900);
+  --md-primary-fg-color--light: var(--wt-orange-700);
+  --md-primary-fg-color--dark:  var(--wt-neutral-950);
+  --md-primary-bg-color:        var(--wt-neutral-50);
+
+  --md-accent-fg-color:         var(--wt-orange-300);
+  --md-accent-fg-color--transparent: rgb(251 86 7 / 12%);
+
+  --md-typeset-a-color:         var(--wt-orange-300);
+
+  --md-default-bg-color:        var(--wt-neutral-950);
+  --md-default-fg-color:        var(--wt-neutral-100);
+  --md-default-fg-color--light: var(--wt-neutral-400);
+  --md-default-fg-color--lighter: var(--wt-neutral-600);
+
+  --md-code-bg-color:           var(--wt-neutral-900);
+  --md-code-fg-color:           var(--wt-neutral-200);
+}

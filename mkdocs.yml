@@ -1,0 +1,31 @@
+# This repository's own documentation site.
+#
+# The template dogfoods itself: this config is stamped from template/mkdocs.yml
+# and inherits from shared/mkdocs.base.yml through the same .mkdocs-shared path
+# every project repo uses. A green build here proves the whole chain before any
+# project repo is touched.
+
+INHERIT: .mkdocs-shared/shared/mkdocs.base.yml
+
+site_name: Docs Template
+site_description: Shared MkDocs configuration, design system, and GitHub Actions for every repository.
+site_author: willtheorangeguy
+
+site_url: https://willtheorangeguy.github.io/mkdocs/
+
+repo_url: https://github.com/willtheorangeguy/mkdocs
+repo_name: willtheorangeguy/mkdocs
+edit_uri: edit/main/docs/
+
+copyright: Copyright &copy; willtheorangeguy
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Architecture: architecture.md
+  - Configuration: configuration.md
+  - Design System: design-system.md
+  - Writing Guide: writing-guide.md
+  - Rollout: rollout.md
+  - About:
+      - License: license.md

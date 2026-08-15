@@ -1,0 +1,27 @@
+{#
+  Footer note, shared across every site.
+
+  Overrides Material's partials/copyright.html. Staged with no-clobber, so a
+  repo can replace it by committing overrides/partials/copyright.html.
+#}
+<div class="md-copyright">
+  {% if config.copyright %}
+    <div class="md-copyright__highlight">
+      {{ config.copyright }}
+    </div>
+  {% endif %}
+  {% if not config.extra.generator == false %}
+    Built with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  {% endif %}
+  <div class="wt-footer-note">
+    Documentation follows the
+    <a href="https://github.com/willtheorangeguy/mkdocs" target="_blank" rel="noopener">shared docs template</a>.
+    {% if config.repo_url %}
+      Found a mistake?
+      <a href="{{ config.repo_url }}/issues/new" target="_blank" rel="noopener">Open an issue</a>.
+    {% endif %}
+  </div>
+</div>

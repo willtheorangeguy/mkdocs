@@ -1,0 +1,12 @@
+# Append these lines to the target repository's .gitignore.
+#
+# All three are generated at build time from the template repository. If any
+# of them gets committed, a stale copy will start overriding the shared
+# version and the site will silently drift from the rest.
+
+# --- Documentation build artifacts ---
+site/
+.mkdocs-shared/
+docs/stylesheets/
+docs/javascript/
+docs/images/favicon.svg

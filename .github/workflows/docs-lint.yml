@@ -1,0 +1,113 @@
+# Reusable documentation CI.
+#
+# Runs on pull requests. Never deploys. Three checks, in cost order, so the
+# cheapest failure surfaces first.
+#
+# The caller needs no special permissions beyond `contents: read`.
+
+name: Docs Lint
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        type: string
+        default: '3.12'
+      shared_ref:
+        type: string
+        default: 'main'
+      check_links:
+        description: "Run the external link checker. Disable for repos with many third-party links."
+        type: boolean
+        default: true
+
+jobs:
+  markdown:
+    name: Markdown style
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Checkout template repository
+        uses: actions/checkout@v7
+        with:
+          repository: willtheorangeguy/mkdocs
+          ref: ${{ inputs.shared_ref }}
+          path: .mkdocs-shared
+
+      - name: Run markdownlint
+        uses: DavidAnson/markdownlint-cli2-action@v20
+        with:
+          config: .mkdocs-shared/shared/lint/.markdownlint.jsonc
+          globs: 'docs/**/*.md'
+
+  build:
+    name: Strict build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Checkout template repository
+        uses: actions/checkout@v7
+        with:
+          repository: willtheorangeguy/mkdocs
+          ref: ${{ inputs.shared_ref }}
+          path: .mkdocs-shared
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ inputs.python-version }}
+          cache: pip
+          cache-dependency-path: .mkdocs-shared/shared/requirements-docs.txt
+
+      - name: Install dependencies
+        run: pip install -r .mkdocs-shared/shared/requirements-docs.txt
+
+      - name: Stage design system
+        run: |
+          set -euo pipefail
+          DS=.mkdocs-shared/design-system
+          mkdir -p docs/stylesheets docs/javascript docs/images overrides/.icons
+          cp -r "$DS/stylesheets/." docs/stylesheets/
+          cp -r "$DS/javascript/."  docs/javascript/
+          cp -rn "$DS/overrides/." overrides/        2>/dev/null || true
+          cp -rn "$DS/icons/."     overrides/.icons/ 2>/dev/null || true
+          cp -n "$DS/images/favicon.svg" docs/images/favicon.svg 2>/dev/null || true
+
+      # Catches broken internal links, orphaned files, bad anchors, missing
+      # snippet targets, and macro errors.
+      - name: Build strictly
+        run: mkdocs build --strict --site-dir _docs_out
+
+  links:
+    name: External links
+    if: inputs.check_links
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Checkout template repository
+        uses: actions/checkout@v7
+        with:
+          repository: willtheorangeguy/mkdocs
+          ref: ${{ inputs.shared_ref }}
+          path: .mkdocs-shared
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --max-retries 3
+            --retry-wait-time 5
+            --timeout 20
+            --accept 200,206,429
+            --exclude-file .mkdocs-shared/shared/lint/.lycheeignore
+            'docs/**/*.md'
+          fail: true

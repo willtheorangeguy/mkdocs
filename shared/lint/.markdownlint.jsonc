@@ -1,0 +1,52 @@
+// Shared markdownlint rules for every documentation site.
+//
+// These encode the mechanically checkable half of docs.instructions.md.
+// Anything a linter cannot judge (voice, banned words, example quality)
+// stays in the prose guide and is enforced by review.
+{
+  "default": true,
+
+  // Line length: prose wraps naturally in the browser, and hard wrapping
+  // makes diffs noisy. Tables and code blocks are exempt regardless.
+  "MD013": false,
+
+  // One H1 per page, and it must be the first line. docs.instructions.md
+  // requires the H1 to match the nav label.
+  "MD025": { "level": 1, "front_matter_title": "" },
+
+  // Heading levels must not skip (## -> ####).
+  "MD001": true,
+
+  // Sentence case is a prose rule; the linter only enforces no trailing
+  // punctuation in headings.
+  "MD026": { "punctuation": ".,;:!" },
+
+  // Duplicate headings collide on permalink anchors. Siblings only, so
+  // repeated "Example" subsections under different parents are allowed.
+  "MD024": { "siblings_only": true },
+
+  // Every fenced block must declare a language. This is the rule that
+  // keeps syntax highlighting working across all sites.
+  "MD040": true,
+
+  // Consistent list markers and ordering.
+  "MD004": { "style": "dash" },
+  "MD029": { "style": "ordered" },
+
+  // Bare URLs are banned; use a labelled link.
+  "MD034": true,
+
+  // Inline HTML is required by Material for card grids and the design
+  // system components, so it cannot be disallowed outright.
+  "MD033": false,
+
+  // The first line is the H1, not necessarily a top-level heading in the
+  // linter's sense once snippets are involved.
+  "MD041": { "level": 1 },
+
+  // Trailing spaces are never meaningful here; we use explicit line breaks.
+  "MD009": { "br_spaces": 0 },
+
+  // Emphasis used as a heading is a structure smell.
+  "MD036": { "punctuation": ".,;:!?" }
+}

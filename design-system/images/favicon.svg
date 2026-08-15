@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Documentation">
+  <!--
+    Default favicon for every documentation site. A repo overrides it by
+    committing its own docs/images/favicon.svg — the build stages this one
+    with no-clobber, so a local file always wins.
+  -->
+  <rect width="32" height="32" rx="7" fill="#c33207"/>
+  <path fill="#fff4ed"
+        d="M8.5 7.5h9.2c2.6 0 4.6 1.2 5.8 3v13.2c-1.2-1.5-3.2-2.4-5.8-2.4H8.5a1 1 0 0 1-1-1V8.5a1 1 0 0 1 1-1Z"
+        opacity=".55"/>
+  <path fill="#fff4ed"
+        d="M23.5 7.5h-5.3c-2.6 0-4.6 1.2-5.8 3v13.2c1.2-1.5 3.2-2.4 5.8-2.4h5.3a1 1 0 0 0 1-1V8.5a1 1 0 0 0-1-1Z"/>
+</svg>

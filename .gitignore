@@ -1,0 +1,21 @@
+# Documentation build artifacts.
+#
+# These are staged from design-system/ at build time. A committed copy would
+# start overriding the shared source, so they must never be tracked.
+site/
+.mkdocs-shared/
+docs/stylesheets/
+docs/javascript/
+docs/images/favicon.svg
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

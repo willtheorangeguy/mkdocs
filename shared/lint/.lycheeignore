@@ -1,0 +1,28 @@
+# External URLs the link checker should skip.
+#
+# Keep this list short and justified. Every entry is a link nobody is
+# checking any more, so add one only when a host is genuinely hostile to
+# automated requests — not to silence a link that is actually dead.
+
+# Rate-limits or blocks CI runners outright.
+^https://(www\.)?linkedin\.com/
+^https://(www\.)?x\.com/
+^https://(www\.)?twitter\.com/
+^https://(www\.)?reddit\.com/
+^https://(www\.)?instagram\.com/
+^https://(www\.)?facebook\.com/
+
+# Requires an authenticated session.
+^https://discord\.com/channels/
+
+# Badge and shield endpoints are generated, not navigable.
+^https://img\.shields\.io/
+
+# Anchors into GitHub's own UI that vary by account state.
+^https://github\.com/[^/]+/[^/]+/(settings|security/advisories)
+
+# Localhost and example hosts used in documentation samples.
+^https?://localhost
+^https?://127\.0\.0\.1
+^https?://0\.0\.0\.0
+^https?://([a-z0-9-]+\.)*example\.(com|org|net)

@@ -1,0 +1,220 @@
+# Shared MkDocs configuration — inherited by every project repo.
+#
+# A project's mkdocs.yml starts with:
+#     INHERIT: .mkdocs-shared/shared/mkdocs.base.yml
+# and then declares ONLY its own identity: site_name, site_url, site_description,
+# repo_url, repo_name, edit_uri, nav, and theme.logo.
+#
+# MkDocs deep-merges dicts (so `theme:` in a project adds to the theme block
+# below) but REPLACES lists. Never declare `plugins:` or `markdown_extensions:`
+# in a project repo — you would silently drop everything defined here.
+
+site_name: Documentation
+site_description: Documentation
+site_author: willtheorangeguy
+
+copyright: Copyright &copy; willtheorangeguy
+
+# ---------------------------------------------------------------------------
+# Theme
+# ---------------------------------------------------------------------------
+
+theme:
+  name: material
+  custom_dir: overrides
+  language: en
+  favicon: images/favicon.svg
+
+  # Default mark. A project repo with real artwork overrides this with
+  #   theme:
+  #     logo: images/logo.png
+  icon:
+    logo: material/book-open-page-variant
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.top
+    - navigation.sections
+    - navigation.indexes
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.action.edit
+    - content.tabs.link
+    - content.tooltips
+
+  palette:
+    # Follows the reader's OS setting by default.
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep orange
+      accent: orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep orange
+      accent: orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+# ---------------------------------------------------------------------------
+# Assets
+#
+# These paths are staged into docs/ by the build workflow from
+# design-system/. They are gitignored in project repos — do not commit them.
+# ---------------------------------------------------------------------------
+
+extra_css:
+  - stylesheets/theme.css
+  - stylesheets/components.css
+  - stylesheets/overrides.css
+
+extra_javascript:
+  - javascript/tablesort.js
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/willtheorangeguy
+      name: GitHub
+  generator: true
+
+# ---------------------------------------------------------------------------
+# Markdown extensions
+# ---------------------------------------------------------------------------
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      permalink_title: Link to this section
+      toc_depth: 3
+
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.keys
+  - pymdownx.smartsymbols
+  - pymdownx.details
+
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+
+  # `superfences` powers both nested code blocks and mermaid diagrams.
+  # architecture.md depends on the mermaid fence.
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+  # installation.md depends on tabbed blocks for per-platform instructions.
+  - pymdownx.tabbed:
+      alternate_style: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      options:
+        custom_icons:
+          - overrides/.icons
+
+  # This is what lets docs/changelog.md pull in the root CHANGELOG.md.
+  # base_path '.' is the repo root, because MkDocs runs from there.
+  # check_paths turns a missing include into a hard error instead of a
+  # silently empty page.
+  - pymdownx.snippets:
+      base_path: ['.', 'docs']
+      check_paths: true
+
+# ---------------------------------------------------------------------------
+# Plugins
+# ---------------------------------------------------------------------------
+
+plugins:
+  - search:
+      separator: '[\s​\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+
+  # Shared variables and helpers. See shared/macros.py.
+  # Jinja is evaluated in ALL markdown, so a literal {{ or {% in a code
+  # sample must be wrapped in a raw block. See docs.instructions.md.
+  - macros:
+      module_name: .mkdocs-shared/shared/macros
+      on_error_fail: true
+
+  - git-revision-date-localized:
+      type: date
+      enable_creation_date: true
+      fallback_to_build_date: true   # keeps forks and shallow clones building
+
+  # Inert unless a page uses a ::: directive, so this costs non-Python
+  # repos nothing while keeping the plugin list identical everywhere.
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: ['.', 'src']
+          options:
+            docstring_style: google
+            docstring_section_style: table
+            show_source: true
+            show_root_heading: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            separate_signature: true
+            signature_crossrefs: true
+            merge_init_into_class: true
+            filters: ['!^_']
+
+# ---------------------------------------------------------------------------
+# Validation
+#
+# Combined with `mkdocs build --strict` in CI, every broken internal link,
+# orphaned file, and bad anchor fails the build rather than shipping.
+# ---------------------------------------------------------------------------
+
+validation:
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn
+  anchors: warn
+  nav:
+    omitted_files: info

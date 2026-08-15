@@ -1,0 +1,20 @@
+# CI for this repository's own documentation.
+#
+# Same reusable workflow every project repo uses, pinned to the branch under
+# review so shared-config changes are linted against themselves.
+
+name: Lint
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    uses: ./.github/workflows/docs-lint.yml
+    with:
+      shared_ref: ${{ github.head_ref || github.ref_name }}

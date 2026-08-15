@@ -1,0 +1,139 @@
+# Reusable documentation build and deploy.
+#
+# Called by every project repo with a ~15-line caller workflow. All build
+# logic, dependency pinning, and asset staging lives here so it can be
+# fixed once for every site.
+#
+# The caller MUST grant these permissions — a reusable workflow cannot
+# grant its own:
+#
+#   permissions:
+#     contents: read
+#     pages: write
+#     id-token: write
+
+name: Docs Build
+
+on:
+  workflow_call:
+    inputs:
+      docs_subpath:
+        description: "Publish docs under this subpath instead of the site root (e.g. 'docs'). Empty = root."
+        type: string
+        default: ''
+      app_path:
+        description: "Directory of the existing site to publish at the root when docs_subpath is set."
+        type: string
+        default: '.'
+      python-version:
+        description: "Python version used to build the docs."
+        type: string
+        default: '3.12'
+      strict:
+        description: "Fail the build on any MkDocs warning."
+        type: boolean
+        default: true
+      shared_ref:
+        description: "Ref of willtheorangeguy/mkdocs to build against."
+        type: string
+        default: 'main'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          # git-revision-date-localized reads the full history to date each
+          # page. A shallow clone silently dates everything to the build.
+          fetch-depth: 0
+
+      - name: Checkout template repository
+        uses: actions/checkout@v7
+        with:
+          repository: willtheorangeguy/mkdocs
+          ref: ${{ inputs.shared_ref }}
+          path: .mkdocs-shared
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ inputs.python-version }}
+          cache: pip
+          cache-dependency-path: .mkdocs-shared/shared/requirements-docs.txt
+
+      - name: Install dependencies
+        run: pip install -r .mkdocs-shared/shared/requirements-docs.txt
+
+      - name: Stage design system
+        run: |
+          set -euo pipefail
+          DS=.mkdocs-shared/design-system
+
+          mkdir -p docs/stylesheets docs/javascript docs/images overrides/.icons
+
+          # Stylesheets and scripts are always overwritten: they are owned by
+          # the design system and gitignored in project repos.
+          cp -r "$DS/stylesheets/." docs/stylesheets/
+          cp -r "$DS/javascript/."  docs/javascript/
+
+          # Theme overrides and icons use no-clobber so a repo that commits
+          # its own overrides/main.html keeps it.
+          cp -rn "$DS/overrides/." overrides/        2>/dev/null || true
+          cp -rn "$DS/icons/."     overrides/.icons/ 2>/dev/null || true
+
+          # Fallback favicon, only when the repo has not supplied one.
+          cp -n "$DS/images/favicon.svg" docs/images/favicon.svg 2>/dev/null || true
+
+      - name: Build site
+        run: mkdocs build ${{ inputs.strict && '--strict' || '' }} --site-dir _docs_out
+
+      - name: Assemble artifact
+        run: |
+          set -euo pipefail
+
+          if [ -z "${{ inputs.docs_subpath }}" ]; then
+            # Docs own the whole site.
+            mv _docs_out _site
+          else
+            # An app already owns the Pages root. Copy it to the artifact
+            # root, then nest the docs underneath.
+            #
+            # The excludes are load-bearing: without them rsync copies the
+            # output directory into itself.
+            mkdir -p _site
+            rsync -a \
+              --exclude '_site' \
+              --exclude '_docs_out' \
+              --exclude '.git' \
+              --exclude '.github' \
+              --exclude '.mkdocs-shared' \
+              --exclude 'docs' \
+              --exclude 'overrides' \
+              "${{ inputs.app_path }}/" _site/
+
+            mkdir -p "_site/${{ inputs.docs_subpath }}"
+            cp -r _docs_out/. "_site/${{ inputs.docs_subpath }}/"
+          fi
+
+          echo "Artifact contents:"
+          find _site -maxdepth 2 -type d | head -40
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    name: Deploy
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

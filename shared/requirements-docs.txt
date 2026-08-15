@@ -1,0 +1,15 @@
+# Documentation toolchain — single source of truth for every repo.
+#
+# Every project repo builds against this file via the reusable workflow
+# (.github/workflows/docs-build.yml). Bump a version here and all sites
+# pick it up on their next build. Do not duplicate this file into repos.
+
+mkdocs==1.6.1
+mkdocs-material==9.7.7
+pymdown-extensions==11.0.1
+mkdocs-macros-plugin~=1.3
+mkdocs-git-revision-date-localized-plugin~=1.3
+# The core package and the Python handler version independently:
+# mkdocstrings is at 1.x, mkdocstrings-python at 2.x.
+mkdocstrings==1.0.6
+mkdocstrings-python==2.0.5

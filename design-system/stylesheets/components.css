@@ -1,0 +1,245 @@
+/* =========================================================================
+   Components
+   =========================================================================
+
+   Reusable pieces for documentation pages. Every value comes from a token
+   in theme.css — no colour is hardcoded here, so all of this follows the
+   light/dark toggle automatically.
+
+   Rendered live on the template site's Design System page, which is the
+   place to check a change before it reaches 130 sites.
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   Card grid
+   Used on index.md to route readers into the main sections.
+
+   <div class="wt-grid" markdown>
+   [:material-rocket: **Getting started** — first run in five minutes](getting-started.md){ .wt-card }
+   </div>
+   ------------------------------------------------------------------------- */
+
+.wt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--wt-space-4);
+  margin: var(--wt-space-5) 0;
+}
+
+.md-typeset .wt-card,
+.md-typeset a.wt-card {
+  display: block;
+  padding: var(--wt-space-4);
+  border: 1px solid var(--wt-border);
+  border-radius: var(--wt-radius-lg);
+  background: var(--wt-surface-raised);
+  color: var(--wt-text);
+  box-shadow: var(--wt-shadow-sm);
+  text-decoration: none;
+  transition: border-color 125ms, box-shadow 125ms, transform 125ms;
+}
+
+.md-typeset a.wt-card:hover,
+.md-typeset a.wt-card:focus-visible {
+  border-color: var(--wt-primary);
+  box-shadow: var(--wt-shadow-md);
+  transform: translateY(-2px);
+}
+
+.md-typeset a.wt-card:focus-visible {
+  outline: 2px solid var(--wt-primary);
+  outline-offset: 2px;
+}
+
+.md-typeset .wt-card > :first-child { margin-top: 0; }
+.md-typeset .wt-card > :last-child  { margin-bottom: 0; }
+
+.md-typeset .wt-card .twemoji,
+.md-typeset .wt-card svg {
+  width: 1.4em;
+  height: 1.4em;
+  fill: var(--wt-primary);
+  vertical-align: -0.25em;
+}
+
+/* -------------------------------------------------------------------------
+   Hero
+   Optional lead block at the top of index.md.
+   ------------------------------------------------------------------------- */
+
+.md-typeset .wt-hero {
+  padding: var(--wt-space-6) var(--wt-space-5);
+  margin-bottom: var(--wt-space-6);
+  border-radius: var(--wt-radius-lg);
+  background: linear-gradient(
+    135deg,
+    var(--wt-primary-faint) 0%,
+    var(--wt-primary-soft) 100%
+  );
+  border: 1px solid var(--wt-border);
+}
+
+.md-typeset .wt-hero h1,
+.md-typeset .wt-hero h2 {
+  margin-top: 0;
+  color: var(--wt-primary-strong);
+}
+
+.md-typeset .wt-hero > :last-child { margin-bottom: 0; }
+
+/* -------------------------------------------------------------------------
+   Badges
+   Inline status markers for API and configuration tables.
+
+   `Deprecated`{ .wt-badge .wt-badge--danger }
+   ------------------------------------------------------------------------- */
+
+.md-typeset .wt-badge {
+  display: inline-block;
+  padding: 0.1em 0.6em;
+  border-radius: var(--wt-radius-full);
+  font-size: var(--wt-font-size-xs);
+  font-weight: var(--wt-font-weight-bold);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: var(--wt-surface-sunken);
+  color: var(--wt-text-muted);
+  border: 1px solid var(--wt-border);
+}
+
+.md-typeset .wt-badge--primary {
+  background: var(--wt-primary-soft);
+  color: var(--wt-primary-strong);
+  border-color: var(--wt-primary);
+}
+
+.md-typeset .wt-badge--info    { color: var(--wt-info);    border-color: var(--wt-info); }
+.md-typeset .wt-badge--success { color: var(--wt-success); border-color: var(--wt-success); }
+.md-typeset .wt-badge--warning { color: var(--wt-warning); border-color: var(--wt-warning); }
+.md-typeset .wt-badge--danger  { color: var(--wt-danger);  border-color: var(--wt-danger); }
+
+/* -------------------------------------------------------------------------
+   Reference tables
+   configuration.md and api.md lean on these heavily, so they get denser
+   type, a sticky header, and horizontal scroll rather than squeezing.
+   ------------------------------------------------------------------------- */
+
+.md-typeset .wt-reference table:not([class]) {
+  font-size: var(--wt-font-size-sm);
+}
+
+.md-typeset .wt-reference table:not([class]) th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--wt-surface-raised);
+  border-bottom: 2px solid var(--wt-primary);
+}
+
+.md-typeset .wt-reference table:not([class]) td:first-child {
+  white-space: nowrap;
+  font-family: var(--md-code-font-family, monospace);
+  color: var(--wt-primary-strong);
+}
+
+/* Any wide table scrolls inside its own container instead of forcing the
+   page to scroll horizontally. */
+.md-typeset .md-typeset__table,
+.md-typeset .wt-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* -------------------------------------------------------------------------
+   Key/value list
+   For short fact blocks — version, licence, maintainer.
+   ------------------------------------------------------------------------- */
+
+.md-typeset .wt-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--wt-space-2) var(--wt-space-4);
+  padding: var(--wt-space-4);
+  margin: var(--wt-space-4) 0;
+  border-left: 3px solid var(--wt-primary);
+  border-radius: 0 var(--wt-radius-md) var(--wt-radius-md) 0;
+  background: var(--wt-surface-raised);
+  font-size: var(--wt-font-size-sm);
+}
+
+.md-typeset .wt-facts dt {
+  font-weight: var(--wt-font-weight-bold);
+  color: var(--wt-text-muted);
+}
+
+.md-typeset .wt-facts dd { margin: 0; }
+
+/* -------------------------------------------------------------------------
+   Steps
+   Numbered procedure with a visible spine, for getting-started.md.
+   ------------------------------------------------------------------------- */
+
+.md-typeset .wt-steps {
+  counter-reset: wt-step;
+  list-style: none;
+  padding-left: 0;
+  margin-left: var(--wt-space-4);
+  border-left: 2px solid var(--wt-border);
+}
+
+.md-typeset .wt-steps > li {
+  counter-increment: wt-step;
+  position: relative;
+  padding-left: var(--wt-space-5);
+  padding-bottom: var(--wt-space-4);
+  margin-left: 0;
+}
+
+.md-typeset .wt-steps > li::before {
+  content: counter(wt-step);
+  position: absolute;
+  left: calc(-1 * var(--wt-space-4));
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--wt-radius-full);
+  background: var(--wt-primary);
+  color: var(--wt-on-primary);
+  font-size: var(--wt-font-size-sm);
+  font-weight: var(--wt-font-weight-bold);
+}
+
+/* -------------------------------------------------------------------------
+   Sortable table affordance
+   Applied by javascript/tablesort.js.
+   ------------------------------------------------------------------------- */
+
+.md-typeset th[data-wt-sortable] {
+  cursor: pointer;
+  user-select: none;
+}
+
+.md-typeset th[data-wt-sortable]::after {
+  content: "↕";
+  margin-left: var(--wt-space-1);
+  opacity: 0.35;
+  font-weight: normal;
+}
+
+.md-typeset th[data-wt-sort="asc"]::after  { content: "↑"; opacity: 1; }
+.md-typeset th[data-wt-sort="desc"]::after { content: "↓"; opacity: 1; }
+
+/* -------------------------------------------------------------------------
+   Respect reduced-motion preferences.
+   ------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .md-typeset a.wt-card,
+  .md-typeset a.wt-card:hover {
+    transition: none;
+    transform: none;
+  }
+}
