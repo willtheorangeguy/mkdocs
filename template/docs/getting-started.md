@@ -66,6 +66,8 @@ Other methods — executable, Docker, from source — are covered in
 
 ## Next steps
 
+<!-- DELETE any entry whose page you removed during triage. -->
+
 - [Configuration](configuration.md) — change how it behaves
 - [Architecture](architecture.md) — understand how it works
 - [API](api.md) — use it from your own code

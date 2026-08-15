@@ -43,6 +43,12 @@ See [Getting started](getting-started.md) for the full walkthrough.
 
 ## Where to next
 
+<!--
+  DELETE the card for any page you removed during triage. A card pointing at
+  a deleted page fails the strict build with "target is not found among
+  documentation files" — this is the most common first build failure.
+-->
+
 <div class="wt-grid" markdown>
 
 [:material-rocket-launch: **Getting started**<br>From zero to a working result](getting-started.md){ .wt-card }

@@ -107,6 +107,7 @@ jobs:
             rsync -a \
               --exclude '_site' \
               --exclude '_docs_out' \
+              --exclude 'site' \
               --exclude '.git' \
               --exclude '.github' \
               --exclude '.mkdocs-shared' \

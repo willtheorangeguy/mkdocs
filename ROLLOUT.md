@@ -105,6 +105,22 @@ exist.** `check_paths: true` turns a missing include into a build failure, not
 an empty page. Note that some repos use `LICENSE` with no extension — either
 correct the path in `license.md` or drop the page.
 
+### Deleting a page means deleting three things
+
+Every time triage removes a page, remove all of:
+
+1. The file in `docs/`
+2. Its entry in the `nav:` block of `mkdocs.yml`
+3. **Every inbound link to it** — the card grid in `index.md` and the "Next
+   steps" list in `getting-started.md` both link to `api.md` by default
+
+Missing the third is the most common first build failure:
+
+```text
+WARNING - Doc file 'index.md' contains a link 'api.md', but the target is
+          not found among documentation files.
+```
+
 ### Which extended pages apply?
 
 - `testing.md` — only if there is a test suite
