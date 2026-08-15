@@ -41,9 +41,10 @@ Work one repository at a time. Finish and verify each before starting the next.
 └── README.md                 UNCHANGED
 ```
 
-The site publishes to `https://<owner>.github.io/<repo>/`, or
-`https://<owner>.github.io/<repo>/docs/` when an application already owns the
-Pages root.
+The site publishes to `https://<pages-host>/<repo>/`, or
+`https://<pages-host>/<repo>/docs/` when an application already owns the
+Pages root. The host is not always `<owner>.github.io` — see
+[Pages hosts](#pages-hosts).
 
 ---
 
@@ -155,11 +156,29 @@ Then replace every placeholder in `mkdocs.yml`:
 | `{{SITE_NAME}}` | Human-readable project name, e.g. `LEGO Block Creator` |
 | `{{SITE_DESCRIPTION}}` | One sentence — reuse the README's description line |
 | `{{OWNER}}` | `willtheorangeguy`, `Dog-Face-Development`, … |
-| `{{OWNER_LOWER}}` | Owner lowercased, for the `github.io` hostname |
+| `{{PAGES_HOST}}` | Pages host for this owner — see [Pages hosts](#pages-hosts) |
 | `{{REPO_NAME}}` | Repository name |
 | `{{DEFAULT_BRANCH}}` | `main` or `master` |
 | `{{DOCS_SUBPATH}}` | Empty, or `docs/` for an app-serving repo |
 | `{{PACKAGE_NAME}}` | In `api.md`, for Python repos only |
+
+### Pages hosts
+
+Two of the three accounts serve Pages from a custom domain, so `site_url` is
+**not** `<owner>.github.io` for most repos.
+
+| Owner | Pages host | Example site URL |
+|---|---|---|
+| `willtheorangeguy` | `williamvdg.me` | `https://williamvdg.me/LEGO-Block-Creator/` |
+| `Dog-Face-Development` | `dog-face-development.github.io` | `https://dog-face-development.github.io/Bars/` |
+| `Daniela-and-Will-Travel` | `danielaandwilltravel.ca` | `https://danielaandwilltravel.ca/littlelink/` |
+
+Confirm rather than trusting the table — the host is whatever the account's
+`*.github.io` repo has as its CNAME:
+
+```bash
+gh api repos/OWNER/OWNER.github.io/pages --jq '.cname // "OWNER.github.io"'
+```
 
 Append `template/gitignore-additions.txt` to the repo's `.gitignore`. Those
 paths are generated at build time; a committed copy starts overriding the
@@ -278,7 +297,7 @@ gh api -X POST repos/OWNER/REPO/pages -f build_type=workflow
 gh api -X PUT repos/OWNER/REPO/pages -f build_type=workflow
 
 # Point the repo's About section at the site
-gh repo edit OWNER/REPO --homepage https://owner.github.io/REPO/
+gh repo edit OWNER/REPO --homepage https://PAGES_HOST/REPO/
 ```
 
 ---
@@ -290,7 +309,7 @@ GitHub landing page, add one badge to the existing badge block:
 
 ```html
 <!-- Documentation -->
-<a href="https://OWNER.github.io/REPO/">
+<a href="https://PAGES_HOST/REPO/">
   <img alt="Documentation" src="https://img.shields.io/badge/docs-online-c33207">
 </a>
 ```

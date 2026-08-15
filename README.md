@@ -21,7 +21,7 @@
   <a href="#contributing">Contributing</a>
 </p>
 
-**Documentation: [willtheorangeguy.github.io/mkdocs](https://willtheorangeguy.github.io/mkdocs/)**
+**Documentation: [williamvdg.me/mkdocs](https://williamvdg.me/mkdocs/)**
 
 ## What This Is
 

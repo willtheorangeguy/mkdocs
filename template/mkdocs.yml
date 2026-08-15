@@ -12,7 +12,9 @@
 #   {{SITE_NAME}}         Human-readable project name, e.g. "LEGO Block Creator"
 #   {{SITE_DESCRIPTION}}  One sentence, reused as the meta description
 #   {{OWNER}}             GitHub owner, e.g. "willtheorangeguy"
-#   {{OWNER_LOWER}}       Owner lowercased, for the github.io hostname
+#   {{PAGES_HOST}}        Host this owner's Pages sites serve from. NOT always
+#                         <owner>.github.io — two of the three accounts use a
+#                         custom domain. See the table in ROLLOUT.md.
 #   {{REPO_NAME}}         Repository name, e.g. "LEGO-Block-Creator"
 #   {{DEFAULT_BRANCH}}    "main" or "master"
 #   {{DOCS_SUBPATH}}      "" normally; "docs/" when an app owns the Pages root
@@ -25,7 +27,7 @@ site_author: {{OWNER}}
 
 # Must be exact. Material derives canonical links, the sitemap, and instant
 # navigation from it; a wrong value breaks search indexing silently.
-site_url: https://{{OWNER_LOWER}}.github.io/{{REPO_NAME}}/{{DOCS_SUBPATH}}
+site_url: https://{{PAGES_HOST}}/{{REPO_NAME}}/{{DOCS_SUBPATH}}
 
 repo_url: https://github.com/{{OWNER}}/{{REPO_NAME}}
 repo_name: {{OWNER}}/{{REPO_NAME}}

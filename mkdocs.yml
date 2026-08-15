@@ -11,7 +11,8 @@ site_name: Docs Template
 site_description: Shared MkDocs configuration, design system, and GitHub Actions for every repository.
 site_author: willtheorangeguy
 
-site_url: https://willtheorangeguy.github.io/mkdocs/
+# Serves from the account's custom domain, not willtheorangeguy.github.io.
+site_url: https://williamvdg.me/mkdocs/
 
 repo_url: https://github.com/willtheorangeguy/mkdocs
 repo_name: willtheorangeguy/mkdocs

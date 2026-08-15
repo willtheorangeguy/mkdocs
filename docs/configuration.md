@@ -36,7 +36,7 @@ is the same trap described in the [writing guide](writing-guide.md).
 | `{{SITE_NAME}}` | `LEGO Block Creator` | Human-readable project name |
 | `{{SITE_DESCRIPTION}}` | `Design and export LEGO models from the command line.` | One sentence; becomes the meta description |
 | `{{OWNER}}` | `willtheorangeguy` | GitHub owner, case-sensitive |
-| `{{OWNER_LOWER}}` | `willtheorangeguy` | Owner lowercased, for the `github.io` hostname |
+| `{{PAGES_HOST}}` | `williamvdg.me` | Pages host for this owner; **not** always `<owner>.github.io` |
 | `{{REPO_NAME}}` | `LEGO-Block-Creator` | Repository name, case-sensitive |
 | `{{DEFAULT_BRANCH}}` | `main` | Used by `edit_uri`; `main` or `master` |
 | `{{DOCS_SUBPATH}}` | *(empty)* | `docs/` only when an app owns the Pages root |
